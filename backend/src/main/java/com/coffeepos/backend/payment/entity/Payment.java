@@ -32,7 +32,7 @@ public class Payment {
     private Sale sale;
 
     @Enumerated(EnumType.STRING)
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private PaymentMethod method;
 
     @Column(nullable = false, precision = 12, scale = 2)

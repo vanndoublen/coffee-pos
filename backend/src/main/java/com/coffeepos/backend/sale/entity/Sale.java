@@ -44,7 +44,7 @@ public class Sale {
     @JoinColumn(name = "cashier_id", nullable = false)
     private User cashier;
 
-    @OneToOne(mappedBy="sale_id", cascade=CascadeType.ALL)
+    @OneToOne(mappedBy="sale", cascade=CascadeType.ALL)
     private Payment payment; 
 
     @Column(nullable = false, precision = 12, scale = 2)
