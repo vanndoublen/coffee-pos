@@ -9,9 +9,8 @@ export const ThemeToggleButton = () => {
     return (
         <>
             <Button
-                size="sm"
-                variant="outline"
-                className="rounded"
+                size="icon"
+                variant="ghost"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
                 <WiMoonAltThirdQuarter />
