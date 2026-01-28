@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { authApi } from "./auth.api"
 
 export const useMe = () => {
@@ -11,4 +11,11 @@ export const useMe = () => {
         retry: false,
         staleTime: 60_000,
     });
+}
+
+export const useLogoutAll = () => {
+    return useMutation({
+        mutationKey: ["logout", "all"],
+        mutationFn: authApi.logoutAll,
+    })
 }

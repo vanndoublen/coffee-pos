@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --root-background: oklch(0.99 0 1);
   --background: oklch(1.0000 0 0);
   --foreground: oklch(0.2174 0.0019 106.5582);
   --card: oklch(1.0000 0 0);
@@ -18,7 +19,7 @@
   --muted-foreground: oklch(0.5693 0 0);
   --accent: oklch(0.9911 0 0);
   --accent-foreground: oklch(0.2174 0.0019 106.5582);
-  --destructive: oklch(0.7812 0.1436 178.1602);
+  --destructive: oklch(41.667% 0.15892 25.802);
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.9431 0 0);
   --input: oklch(0.9431 0 0);
@@ -59,7 +60,8 @@
 }
 
 .dark {
-  --background: oklch(0.2174 0.0019 106.5582);
+  --root-background: oklch(0.17 0 0);
+  --background: oklch(0.1 0 0);
   --foreground: oklch(1.0000 0 0);
   --card: oklch(0.2174 0.0019 106.5582);
   --card-foreground: oklch(1.0000 0 0);
@@ -73,7 +75,7 @@
   --muted-foreground: oklch(0.7252 0 0);
   --accent: oklch(0.3791 0 0);
   --accent-foreground: oklch(1.0000 0 0);
-  --destructive: oklch(0.9213 0.1233 193.3273);
+  --destructive: oklch(41.667% 0.15892 25.802);
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.2809 0 0);
   --input: oklch(0.3329 0 0);
@@ -112,6 +114,7 @@
 }
 
 @theme inline {
+  --color-root-background: var(--root-background);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -148,6 +151,9 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  --font-kablammo: var(--kablammo);
+  --font-noto-serif: var(--noto-serif);
+  --font-tiktok-sans: var(--tiktok-sans);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -168,12 +174,14 @@
   * {
     @apply border-border outline-ring/100;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
 @layer base {
+
   button:not([disabled]),
   [role="button"]:not([disabled]) {
     cursor: pointer;

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Kablammo, Noto_Serif, TikTok_Sans } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-import { RootHeader } from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +11,21 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const kablammo = Kablammo({
+  variable: "--kablammo",
+  subsets: ["latin"],
+});
+
+const notoSerif = Noto_Serif({
+  variable: "--noto-serif",
+  subsets: ["latin"],
+});
+
+const tiktokSans = TikTok_Sans({
+  variable: "--tiktok-sans",
   subsets: ["latin"],
 });
 
@@ -28,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kablammo.variable} ${notoSerif.variable} ${tiktokSans.variable} antialiased font-tiktok-sans bg-root-background`}
       >
         <ThemeProvider
           attribute="class"
@@ -38,7 +52,6 @@ export default function RootLayout({
         >
 
           <ReactQueryProvider>
-            <RootHeader />
             {children}
           </ReactQueryProvider>
         </ThemeProvider>

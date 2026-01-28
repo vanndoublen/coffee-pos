@@ -15,7 +15,7 @@ export interface AuthResponse {
 export interface UserResponse {
     id: number;
     username: string;
-    roles: Role[];
+    roles: RoleName[];
 }
 
 export type Role = {
