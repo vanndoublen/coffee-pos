@@ -44,7 +44,7 @@ export const LoginForm = () => {
             const response = await authApi.login(data)
             if (response.accessToken) {
                 toast.success("success");
-                router.push("/dashboard");
+                router.push("/order");
             }
         } catch (error) {
             console.error(error);

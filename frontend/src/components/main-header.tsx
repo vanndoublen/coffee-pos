@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { authApi } from "@/features/auth/auth.api";
 import { useRouter } from "next/navigation";
+import { HomeNavigation } from "./home-navigation";
 
 const ROLE_PRIORITY: RoleName[] = [
     "ROLE_ADMIN",
@@ -51,6 +52,9 @@ export const MainHeader = () => {
             <div className="flex gap-x-1 items-center">
                 <Image src="/logo.svg" alt="logo" width={20} height={20} />
                 <h1 className="font-bold text-base font-noto-serif">COFFEE POS</h1>
+            </div>
+            <div>
+                <HomeNavigation />
             </div>
             <div className="flex gap-x-3 items-center">
                 <ThemeToggleButton />
