@@ -7,5 +7,5 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public record CreateProductRequest(
     @NotBlank String name, 
-    @PositiveOrZero BigDecimal price,
-    @PositiveOrZero Integer stockQty) {}
+    @PositiveOrZero BigDecimal price
+) {}

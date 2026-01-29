@@ -50,7 +50,6 @@ public class ProductService {
         
         p.setName(productRequest.name());
         p.setPrice(productRequest.price());
-        p.setStockQty(productRequest.stockQty());
 
         return productMapper.toResponse(p);
     }

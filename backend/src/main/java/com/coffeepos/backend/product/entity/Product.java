@@ -30,10 +30,6 @@ public class Product {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
-    @PositiveOrZero
-    @Column(nullable = false)
-    private Integer stockQty;
-
     @Column(nullable = false)
     private Boolean active = true;
 
@@ -46,10 +42,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, Integer stockQty) {
+    public Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
-        this.stockQty = stockQty;
     }
 
     public Long getId() {
@@ -62,10 +57,6 @@ public class Product {
 
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public Integer getStockQty() {
-        return stockQty;
     }
 
     public Boolean isActive() {
@@ -86,10 +77,6 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public void setStockQty(Integer stockQty) {
-        this.stockQty = stockQty;
     }
 
     public void setIsActive(Boolean active) {

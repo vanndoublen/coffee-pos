@@ -7,7 +7,6 @@ public record ProductResponse(
     Long id, 
     String name, 
     BigDecimal price,
-    Integer stockQty,
     Boolean active,
     Instant createdAt,
     Instant updatedAt

@@ -11,8 +11,7 @@ public class ProductMapper {
     public Product toEntity(CreateProductRequest p) {
         return new Product(
                 p.name(),
-                p.price(),
-                p.stockQty());
+                p.price());
     }
 
     public ProductResponse toResponse(Product p) {
@@ -20,7 +19,6 @@ public class ProductMapper {
                 p.getId(),
                 p.getName(),
                 p.getPrice(),
-                p.getStockQty(),
                 p.isActive(),
                 p.getCreatedAt(),
                 p.getUpdatedAt());

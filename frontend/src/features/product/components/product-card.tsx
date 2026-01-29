@@ -10,8 +10,7 @@ interface Props {
 }
 
 export const ProductCard = ({ product }: Props) => {
-  const disabled = !product.active || product.stockQty === 0;
-  const isLowStock = product.stockQty > 0 && product.stockQty < 10;
+  const disabled = !product.active 
 
   return (
     <Card
@@ -29,7 +28,7 @@ export const ProductCard = ({ product }: Props) => {
            Using a gradient background behind the image in case the logo is transparent/small 
            It adds depth so it doesn't look flat.
         */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 opacity-60" />
         
         <img
           src="/logo.svg" 
@@ -49,18 +48,16 @@ export const ProductCard = ({ product }: Props) => {
          Sits on top of the image
       */}
       <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-         {/* Active/Stock Badge */}
+         {/* Active Badge */}
          <Badge 
            className={cn(
              "backdrop-blur-md shadow-sm border-white/10 px-3",
              !product.active 
                 ? "bg-destructive/80 text-white hover:bg-destructive/90" 
-                : isLowStock 
-                  ? "bg-amber-500/80 text-white hover:bg-amber-500/90"
                   : "bg-emerald-500/80 text-white hover:bg-emerald-500/90"
            )}
          >
-           {!product.active ? "Inactive" : isLowStock ? "Low Stock" : "In Stock"}
+           {!product.active ? "Inactive" : "Active"}
          </Badge>
       </div>
 
@@ -95,11 +92,6 @@ export const ProductCard = ({ product }: Props) => {
 
           {/* Controls Row */}
           <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>{product.stockQty} available</span>
-            </div>
-
             {/* The Control Pill (Reused from previous, tweaked for small space) */}
             <div className="flex items-center bg-muted/50 border border-border/50 rounded-full shadow-sm">
                <Button
