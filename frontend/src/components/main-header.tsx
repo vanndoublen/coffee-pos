@@ -51,12 +51,12 @@ export const MainHeader = () => {
         <div className="h-14 shrink-0 flex items-center justify-between px-4 ">
             <div className="flex gap-x-1 items-center">
                 <Image src="/logo.svg" alt="logo" width={20} height={20} />
-                <h1 className="font-bold text-base font-noto-serif">COFFEE POS</h1>
+                <h1 className="font-bold text-base">COFFEE POS</h1>
             </div>
             <div>
                 <HomeNavigation />
             </div>
-            <div className="flex gap-x-3 items-center">
+            <div className="flex gap-x-3 items-center border-t bg-secondary px-4 py-2 rounded-full shadow-xs">
                 <ThemeToggleButton />
                 <Separator orientation="vertical" className="h-6! " />
                 <Badge variant="outline" >Role: {getOneRole(data)}</Badge>

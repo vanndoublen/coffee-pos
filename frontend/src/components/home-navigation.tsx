@@ -15,7 +15,7 @@ export const HomeNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-1 border-b">
+    <nav className="flex items-center gap-1 border-t px-4 bg-secondary rounded-full shadow-xs">
       {menuItems.map((item) => {
         const isActive =
           pathname === item.href ||

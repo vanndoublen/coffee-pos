@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${kablammo.variable} ${notoSerif.variable} ${tiktokSans.variable} antialiased font-tiktok-sans bg-root-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kablammo.variable} ${notoSerif.variable} ${tiktokSans.variable} antialiased font-tiktok-sans bg-background`}
       >
         <ThemeProvider
           attribute="class"
