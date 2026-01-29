@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { authApi } from "@/features/auth/auth.api";
 import { useRouter } from "next/navigation";
 import { HomeNavigation } from "./home-navigation";
+import Link from "next/link";
 
 const ROLE_PRIORITY: RoleName[] = [
     "ROLE_ADMIN",
@@ -49,26 +50,50 @@ export const MainHeader = () => {
 
     return (
         <div className="h-14 shrink-0 flex items-center justify-between px-4 ">
-            <div className="flex gap-x-1 items-center">
-                <Image src="/logo.svg" alt="logo" width={20} height={20} />
-                <h1 className="font-bold text-base">COFFEE POS</h1>
-            </div>
-            <div>
+            <div className="flex gap-x-8 items-center">
+                <Link href="/" className="flex gap-x-1 items-center">
+                    <Image src="/logo.svg" alt="logo" width={20} height={20} />
+                    <h1 className="font-bold text-base">COFFEE POS</h1>
+                </Link>
+
                 <HomeNavigation />
             </div>
+
             <div className="flex gap-x-3 items-center border-t bg-secondary px-4 py-2 rounded-full shadow-xs">
                 <ThemeToggleButton />
                 <Separator orientation="vertical" className="h-6! " />
-                <Badge variant="outline" >Role: {getOneRole(data)}</Badge>
+                {data ? (
+                    <Badge variant="outline" >Role: {getOneRole(data)}</Badge>
+                ) : (
+                    <Button
+                        onClick={() => router.push("/register")}
+                        variant="secondary"
+                        size="sm"
+                        className="shadow-xs h-6 border"
+                    >
+                        <span className="">Register</span>
+                    </Button>
+                )}
                 <Separator orientation="vertical" className="h-6! " />
-                <Button
-                    onClick={logoutAll}
-                    variant="destructive"
-                    size="sm"
-                    className="shadow-xs h-6 border"
-                >
-                    <span className="">Logout All</span>
-                </Button>
+                {data ? (
+                    <Button
+                        onClick={logoutAll}
+                        variant="destructive"
+                        size="sm"
+                        className="shadow-xs h-6 border"
+                    >
+                        <span className="">Logout All</span>
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={() => router.push("/login")}
+                        variant="outline"
+                        size="sm"
+                        className="shadow-xs h-6 border"
+                    >
+                        <span className="">Login</span>
+                    </Button>
+                )}
 
             </div>
         </div>
