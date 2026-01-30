@@ -1,4 +1,4 @@
-import { MenuItemView } from "@/features/menuItem/components/menu-item-view";
+import { MenuItemView } from "@/features/menu-item/components/menu-item-view";
 
 export const Page = () => {
     return (

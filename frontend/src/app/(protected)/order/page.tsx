@@ -1,4 +1,4 @@
-import { OrderView } from "@/features/menuItem/components/order-view";
+import { OrderView } from "@/features/menu-item/components/order-view";
 
 export const Page = () => {
     return (

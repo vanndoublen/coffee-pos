@@ -1,8 +1,8 @@
 "use client";
 
-import { CheckoutPanel } from "@/features/menuItem/components/checkout-panel";
-import { MenuItemHeader } from "@/features/menuItem/components/menu-item-header";
-import { MenuItemList } from "@/features/menuItem/components/menu-item-list";
+import { CheckoutPanel } from "@/features/menu-item/components/checkout-panel";
+import { MenuItemHeader } from "@/features/menu-item/components/menu-item-header";
+import { MenuItemList } from "@/features/menu-item/components/menu-item-list";
 
 export const OrderView = () => {
     return (

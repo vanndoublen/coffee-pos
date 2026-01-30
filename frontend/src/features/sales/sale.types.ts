@@ -1,5 +1,5 @@
 import { UserResponse } from "../auth/auth.types";
-import { MenuItemResponse } from "../menuItem/menu-item.types";
+import { MenuItemResponse } from "../menu-item/menu-item.types";
 
 export type SaleStatus = "DRAFT" | "COMPLETED" | "CANCELLED";
 
