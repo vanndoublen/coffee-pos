@@ -39,10 +39,6 @@ export const CheckoutPanel = () => {
     const tax = subtotal * 0.1;
     const total = subtotal + tax;
 
-
-
-
-
     return (
         <div
             className="h-full flex flex-col bg-secondary/90 border-t shadow-md border-white/5 relative rounded-xl p-2"

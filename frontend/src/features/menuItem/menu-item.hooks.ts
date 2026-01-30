@@ -7,14 +7,14 @@ import type {
 
 export const useMenuItems = () => {
   return useQuery({
-    queryKey: ["menuItems"],
+    queryKey: ["menu-items"],
     queryFn: menuItemApi.findAll,
   });
 };
 
 export const useMenuItem = (id?: number) => {
   return useQuery({
-    queryKey: ["menuItems", id],
+    queryKey: ["menu-items", id],
     queryFn: async () => {
       const res = await menuItemApi.findOne(id!);
       return res;
@@ -30,7 +30,7 @@ export const useCreateMenuItem = () => {
       menuItemApi.create(menuItem),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["menuItems"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 };
@@ -47,8 +47,8 @@ export const useUpdateMenuItem = () => {
     }) => menuItemApi.update(id, menuItem),
 
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["menuItems", variables.id] });
-      queryClient.invalidateQueries({ queryKey: ["menuItems"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items", variables.id] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 };

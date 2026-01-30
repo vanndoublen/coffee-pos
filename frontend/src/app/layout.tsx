@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Kablammo, Noto_Serif, TikTok_Sans } from "next/font/
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
 
           <ReactQueryProvider>
             {children}
+            <Toaster position="top-center" richColors/>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

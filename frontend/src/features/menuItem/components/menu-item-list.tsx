@@ -1,3 +1,5 @@
+"use client";
+
 import { useMenuItems } from "../menu-item.hooks";
 import { CartItem, MenuItemResponse } from "../menu-item.types";
 import { Dispatch, SetStateAction, useEffect } from "react";
