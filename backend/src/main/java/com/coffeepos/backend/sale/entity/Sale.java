@@ -44,8 +44,8 @@ public class Sale {
     @JoinColumn(name = "cashier_id", nullable = false)
     private User cashier;
 
-    @OneToOne(mappedBy="sale", cascade=CascadeType.ALL)
-    private Payment payment; 
+    @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Payment payment;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal subtotal = BigDecimal.ZERO;
@@ -54,16 +54,15 @@ public class Sale {
     private BigDecimal grandTotal = BigDecimal.ZERO;
 
     @CreationTimestamp
-    private Instant createdAt; 
+    private Instant createdAt;
 
-    private Instant completedAt; 
+    private Instant completedAt;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaleItem> saleItems = new ArrayList<>();
 
-    public Sale() {}
-
-    
+    public Sale() {
+    }
 
     public Sale(String receiptNo, SaleStatus status, User cashier, BigDecimal subtotal, BigDecimal grandTotal,
             Instant completedAt) {
@@ -74,8 +73,6 @@ public class Sale {
         this.grandTotal = grandTotal;
         this.completedAt = completedAt;
     }
-
-
 
     public Long getId() {
         return id;
@@ -91,6 +88,10 @@ public class Sale {
 
     public User getCashier() {
         return cashier;
+    }
+
+    public Payment getPayment() {
+        return payment;
     }
 
     public BigDecimal getSubtotal() {
@@ -123,6 +124,13 @@ public class Sale {
 
     public void setCashier(User cashier) {
         this.cashier = cashier;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+        if (payment != null && payment.getSale() != this) {
+            payment.setSale(this);
+        }
     }
 
     public void setSubtotal(BigDecimal subtotal) {
