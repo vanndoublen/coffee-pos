@@ -35,7 +35,6 @@ export const CheckoutPanel = () => {
             className="h-full flex flex-col bg-secondary/90 border-t shadow-md border-white/5 relative rounded-xl p-2"
         >
 
-            {/* 1. Header */}
             <div className="flex-1 overflow-y-auto space-y-3 px-4">
                 <div className="sticky top-0 z-10 p-6 pb-4 border-b bg-secondary/90 ">
                     <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
@@ -49,7 +48,6 @@ export const CheckoutPanel = () => {
                     </p>
                 </div>
 
-                {/* 2. Scrollable Cart Items */}
                 {cart.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-4 opacity-50">
                         <ShoppingBag className="w-16 h-16 stroke-1" />
@@ -61,12 +59,10 @@ export const CheckoutPanel = () => {
                             key={item.id}
                             className="group flex items-center gap-4 p-3 rounded-xl bg-muted/20 border border-transparent hover:border-primary/20 hover:bg-muted/40 transition-all backdrop-blur-md"
                         >
-                            {/* Mini Image */}
                             <div className="h-12 w-12 rounded-lg bg-black/20 p-1 shrink-0">
                                 <img src={item.image} alt={item.name} className="h-full w-full object-contain" />
                             </div>
 
-                            {/* Text Info */}
                             <div className="flex-1 min-w-0">
                                 <div className="flex justify-between items-start">
                                     <h4 className="font-medium text-sm truncate">{item.name}</h4>
@@ -78,7 +74,6 @@ export const CheckoutPanel = () => {
                                     <p className="text-xs text-muted-foreground">
                                         {item.qty} x ${item.price.toFixed(2)}
                                     </p>
-                                    {/* Delete Action */}
                                     <button className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:bg-destructive/10 p-1 rounded">
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -89,10 +84,8 @@ export const CheckoutPanel = () => {
                 )}
             </div>
 
-            {/* 3. Footer: Payment & Totals */}
             <div className="p-6 bg-secondary backdrop-blur-md border-t space-y-6 rounded-b-xl">
 
-                {/* Payment Selector */}
                 <div className="grid grid-cols-2 gap-3 shadow-2xl rounded-xl bg-muted/45 p-1">
                     <Button
                         variant="secondary"
@@ -161,7 +154,6 @@ export const CheckoutPanel = () => {
 
                     
                 </div>
-                {/* Big Checkout Button */}
                     <Button
                         size="lg"
                         variant="outline"
