@@ -2,7 +2,7 @@ package com.coffeepos.backend.sale.entity;
 
 import java.math.BigDecimal;
 
-import com.coffeepos.backend.product.entity.Product;
+import com.coffeepos.backend.menuItem.entity.MenuItem;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,11 +27,11 @@ public class SaleItem {
     private Sale sale;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "menuItem_id", nullable = false)
+    private MenuItem menuItem;
 
     @Column(nullable = false)
-    private String productNameSnapshot;
+    private String menuItemNameSnapshot;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal unitPriceSnapshot;
@@ -46,11 +46,12 @@ public class SaleItem {
     public SaleItem() {
     }
 
-    public SaleItem(Sale sale, Product product, String productNameSnapshot, BigDecimal unitPriceSnapshot, Integer qty,
+    public SaleItem(Sale sale, MenuItem menuItem, String menuItemNameSnapshot, BigDecimal unitPriceSnapshot,
+            Integer qty,
             BigDecimal lineTotal) {
         this.sale = sale;
-        this.product = product;
-        this.productNameSnapshot = productNameSnapshot;
+        this.menuItem = menuItem;
+        this.menuItemNameSnapshot = menuItemNameSnapshot;
         this.unitPriceSnapshot = unitPriceSnapshot;
         this.qty = qty;
         this.lineTotal = lineTotal;
@@ -64,12 +65,12 @@ public class SaleItem {
         return sale;
     }
 
-    public Product getProduct() {
-        return product;
+    public MenuItem getMenuItem() {
+        return menuItem;
     }
 
-    public String getProductNameSnapshot() {
-        return productNameSnapshot;
+    public String getMenuItemNameSnapshot() {
+        return menuItemNameSnapshot;
     }
 
     public BigDecimal getUnitPriceSnapshot() {
@@ -88,12 +89,12 @@ public class SaleItem {
         this.sale = sale;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setMenuItem(MenuItem menuItem) {
+        this.menuItem = menuItem;
     }
 
-    public void setProductNameSnapshot(String productNameSnapshot) {
-        this.productNameSnapshot = productNameSnapshot;
+    public void setMenuItemNameSnapshot(String menuItemNameSnapshot) {
+        this.menuItemNameSnapshot = menuItemNameSnapshot;
     }
 
     public void setUnitPriceSnapshot(BigDecimal unitPriceSnapshot) {

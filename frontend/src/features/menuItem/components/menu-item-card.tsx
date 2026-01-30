@@ -3,14 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ProductResponse } from "../product.types";
+import { MenuItemResponse } from "../menu-item.types";
 
 interface Props {
-  product: ProductResponse;
+  menuItem: MenuItemResponse;
 }
 
-export const ProductCard = ({ product }: Props) => {
-  const disabled = !product.active 
+export const MenuItemCard = ({ menuItem }: Props) => {
+  const disabled = !menuItem.active
 
   return (
     <Card
@@ -29,16 +29,16 @@ export const ProductCard = ({ product }: Props) => {
            It adds depth so it doesn't look flat.
         */}
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 opacity-60" />
-        
+
         <img
-          src="/logo.svg" 
-          alt={product.name}
+          src="/logo.svg"
+          alt={menuItem.name}
           className={cn(
             "h-full w-full object-cover transition-transform duration-700 ease-out",
             "group-hover:scale-105", // The smooth zoom effect
-             // If using a logo, you might prefer 'object-contain p-8' instead of 'object-cover'
-             // depending on your image aspect ratios.
-             "object-cover" 
+            // If using a logo, you might prefer 'object-contain p-8' instead of 'object-cover'
+            // depending on your image aspect ratios.
+            "object-cover"
           )}
         />
       </div>
@@ -48,17 +48,17 @@ export const ProductCard = ({ product }: Props) => {
          Sits on top of the image
       */}
       <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-         {/* Active Badge */}
-         <Badge 
-           className={cn(
-             "backdrop-blur-md shadow-sm border-white/10 px-3",
-             !product.active 
-                ? "bg-destructive/80 text-white hover:bg-destructive/90" 
-                  : "bg-emerald-500/80 text-white hover:bg-emerald-500/90"
-           )}
-         >
-           {!product.active ? "Inactive" : "Active"}
-         </Badge>
+        {/* Active Badge */}
+        <Badge
+          className={cn(
+            "backdrop-blur-md shadow-sm border-white/10 px-3",
+            !menuItem.active
+              ? "bg-destructive/80 text-white hover:bg-destructive/90"
+              : "bg-emerald-500/80 text-white hover:bg-emerald-500/90"
+          )}
+        >
+          {!menuItem.active ? "Inactive" : "Active"}
+        </Badge>
       </div>
 
       {/* 
@@ -74,16 +74,16 @@ export const ProductCard = ({ product }: Props) => {
           "transition-all duration-300",
           "group-hover:bg-background/90" // Slightly more solid on hover for readability
         )}>
-          
+
           {/* Title & Price Row */}
           <div className="space-y-1">
             <h3 className="font-bold text-lg leading-tight truncate pr-2 text-foreground">
-              {product.name}
+              {menuItem.name}
             </h3>
-            
+
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-extrabold tracking-tight text-primary">
-                ${product.price.toFixed(2)}
+                ${menuItem.price.toFixed(2)}
               </span>
               {/* Optional previous price or unit */}
               <span className="text-xs text-muted-foreground">USD</span>
@@ -94,7 +94,7 @@ export const ProductCard = ({ product }: Props) => {
           <div className="flex items-center justify-between pt-2">
             {/* The Control Pill (Reused from previous, tweaked for small space) */}
             <div className="flex items-center bg-muted/50 border border-border/50 rounded-full shadow-sm">
-               <Button
+              <Button
                 variant="ghost"
                 size="icon"
                 disabled={disabled}
@@ -102,7 +102,7 @@ export const ProductCard = ({ product }: Props) => {
               >
                 <Minus className="h-4 w-4" />
               </Button>
-              
+
               <span className="w-px h-3 bg-border" />
 
               <Button

@@ -1,7 +1,7 @@
-import { ProductResponse } from "../product.types";
-import { ProductCard } from "./product-card";
+import { MenuItemResponse } from "../menu-item.types";
+import { MenuItemCard } from "./menu-item-card";
 
-const mockProducts: ProductResponse[] = [
+const mockMenuItems: MenuItemResponse[] = [
     {
         id: 1,
         name: "Americano",
@@ -26,7 +26,7 @@ const mockProducts: ProductResponse[] = [
         createdAt: "2025-01-03T08:00:00Z",
         updatedAt: "2025-01-12T10:30:00Z",
     },
-     
+
     {
         id: 4,
         name: "Espresso",
@@ -190,11 +190,11 @@ const mockProducts: ProductResponse[] = [
 ];
 
 
-export const ProductList = () => {
+export const MenuItemList = () => {
     return (
         <div className="grid p-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {mockProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+            {mockMenuItems.map((menuItem) => (
+                <MenuItemCard key={menuItem.id} menuItem={menuItem} />
             ))}
         </div>
     )

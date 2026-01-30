@@ -1,4 +1,4 @@
-package com.coffeepos.backend.product.entity;
+package com.coffeepos.backend.menuItem.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -16,8 +16,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "menuItems")
+public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,10 +39,10 @@ public class Product {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    public Product() {
+    public MenuItem() {
     }
 
-    public Product(String name, BigDecimal price) {
+    public MenuItem(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
