@@ -1,34 +1,32 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
     CreditCard,
     Banknote,
     Trash2,
     ShoppingBag,
-    ArrowRight
+    ArrowRight,
+    Minus,
+    Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area"; // specific shadcn component, or use standard div overflow
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { CartItem, MenuItemResponse } from "../menu-item.types";
 
-// Mock Data for visualization (Replace with your actual Cart Context/State)
-const MOCK_CART = [
-    { id: 1, name: "Cappuccino", price: 3.00, qty: 2, image: "/logo.svg" },
-    { id: 2, name: "Mocha", price: 4.25, qty: 1, image: "/logo.svg" },
-    { id: 3, name: "Espresso", price: 2.00, qty: 3, image: "/logo.svg" },
-    { id: 4, name: "Cappuccino", price: 3.00, qty: 2, image: "/logo.svg" },
-    { id: 5, name: "Mocha", price: 4.25, qty: 1, image: "/logo.svg" },
-    { id: 6, name: "Espresso", price: 2.00, qty: 3, image: "/logo.svg" },
-];
+interface Props {
+    cartItems: CartItem[];
+    addItem: (item: MenuItemResponse) => void;
+    removeItem: (item: MenuItemResponse) => void;
+    subtotal: number;
+    tax: number;
+    total: number;
+}
 
-export const CheckoutPanel = () => {
+export const CheckoutPanel = ({ cartItems, addItem, removeItem, subtotal, tax, total }: Props) => {
     const [paymentMethod, setPaymentMethod] = useState<"cash" | "card">("card");
 
-    // Replace these with your real cart state logic
-    const cart = MOCK_CART;
-    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const tax = subtotal * 0.1; // 10% tax example
-    const total = subtotal + tax;
+    const cart = cartItems;
 
     return (
         <div
@@ -56,27 +54,48 @@ export const CheckoutPanel = () => {
                 ) : (
                     cart.map((item) => (
                         <div
-                            key={item.id}
+                            key={item.menuItem.id}
                             className="group flex items-center gap-4 p-3 rounded-xl bg-muted/20 border border-transparent hover:border-primary/20 hover:bg-muted/40 transition-all backdrop-blur-md"
                         >
                             <div className="h-12 w-12 rounded-lg bg-black/20 p-1 shrink-0">
-                                <img src={item.image} alt={item.name} className="h-full w-full object-contain" />
+                                <img src="/logo.svg" alt={item.menuItemNameSnapshot} className="h-full w-full object-contain" />
                             </div>
 
                             <div className="flex-1 min-w-0">
                                 <div className="flex justify-between items-start">
-                                    <h4 className="font-medium text-sm truncate">{item.name}</h4>
+                                    <h4 className="font-medium text-sm truncate">{item.menuItemNameSnapshot}</h4>
                                     <span className="font-bold text-sm">
-                                        ${(item.price * item.qty).toFixed(2)}
+                                        ${(item.unitPriceSnapshot * item.qty).toFixed(2)}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between mt-1">
                                     <p className="text-xs text-muted-foreground">
-                                        {item.qty} x ${item.price.toFixed(2)}
+                                        {item.qty} x ${item.unitPriceSnapshot.toFixed(2)}
                                     </p>
-                                    <button className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:bg-destructive/10 p-1 rounded">
-                                        <Trash2 className="w-4 h-4" />
-                                    </button>
+
+                                    <div className="flex items-center bg-muted/50 border border-border/50 rounded-full shadow-sm">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            disabled={!item.menuItem.active}
+                                            className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                                            onClick={() => removeItem(item.menuItem)}
+                                        >
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+
+                                        <span className="w-px h-3 bg-border" />
+
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            disabled={!item.menuItem.active}
+                                            className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
+                                            onClick={() => addItem(item.menuItem)}
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,16 +171,16 @@ export const CheckoutPanel = () => {
                         </span>
                     </div>
 
-                    
+
                 </div>
-                    <Button
-                        size="lg"
-                        variant="outline"
-                        className="w-full text-lg font-bold h-14 shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]"
-                    >
-                        <span>Charge ${total.toFixed(2)}</span>
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
+                <Button
+                    size="lg"
+                    variant="outline"
+                    className="w-full text-lg font-bold h-14 shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]"
+                >
+                    <span>Charge ${total.toFixed(2)}</span>
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
 
 
             </div>

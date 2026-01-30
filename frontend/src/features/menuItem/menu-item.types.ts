@@ -16,3 +16,11 @@ export interface MenuItemResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface CartItem {
+  menuItem: MenuItemResponse;
+  menuItemNameSnapshot: string; 
+  unitPriceSnapshot: number;
+  qty: number; 
+  lineTotal: number; 
+}

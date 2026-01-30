@@ -1,15 +1,17 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, ShoppingBag } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MenuItemResponse } from "../menu-item.types";
 
 interface Props {
   menuItem: MenuItemResponse;
+  addItem: (item: MenuItemResponse) => void;
+  removeItem: (item: MenuItemResponse) => void;
 }
 
-export const MenuItemCard = ({ menuItem }: Props) => {
+export const MenuItemCard = ({ menuItem, addItem, removeItem }: Props) => {
   const disabled = !menuItem.active
 
   return (
@@ -78,6 +80,7 @@ export const MenuItemCard = ({ menuItem }: Props) => {
                 size="icon"
                 disabled={disabled}
                 className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                onClick={() => removeItem(menuItem)}
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -89,6 +92,7 @@ export const MenuItemCard = ({ menuItem }: Props) => {
                 size="icon"
                 disabled={disabled}
                 className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
+                onClick={() => addItem(menuItem)}
               >
                 <Plus className="h-4 w-4" />
               </Button>
