@@ -4,11 +4,10 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { MenuItemCard } from "./menu-item-card";
 
 interface ManuItemListProps {
-    addItem: (item: MenuItemResponse) => void;
-    removeItem: (item: MenuItemResponse) => void;
+    isOrderView: boolean;
 }
 
-export const MenuItemList = ({ addItem, removeItem }: ManuItemListProps) => {
+export const MenuItemList = ({ isOrderView }: ManuItemListProps) => {
     // TODO: use suspense - fetch from server
     const { data: menuItems } = useMenuItems();
 
@@ -17,9 +16,8 @@ export const MenuItemList = ({ addItem, removeItem }: ManuItemListProps) => {
             {menuItems?.map((menuItem) => (
                 <MenuItemCard
                     key={menuItem.id}
+                    isOrderView={isOrderView}
                     menuItem={menuItem}
-                    addItem={addItem}
-                    removeItem={removeItem}
                 />
             ))}
         </div>

@@ -9,24 +9,39 @@ import {
     Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area"; // specific shadcn component, or use standard div overflow
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { CartItem, MenuItemResponse } from "../menu-item.types";
+import { useCartStore } from "../stores/cartStore";
 
-interface Props {
-    cartItems: CartItem[];
-    addItem: (item: MenuItemResponse) => void;
-    removeItem: (item: MenuItemResponse) => void;
-    subtotal: number;
-    tax: number;
-    total: number;
-}
 
-export const CheckoutPanel = ({ cartItems, addItem, removeItem, subtotal, tax, total }: Props) => {
+export const CheckoutPanel = () => {
     const [paymentMethod, setPaymentMethod] = useState<"cash" | "card">("card");
 
-    const cart = cartItems;
+    const items = useCartStore((s) => s.items);
+    const addItem = useCartStore((s) => s.addItem);
+    const removeItem = useCartStore((s) => s.removeItem);
+
+    const cartItems = useMemo(
+        () => Array.from(items.values()),
+        [items]
+    );
+
+    const subtotal = useMemo(
+        () =>
+            cartItems.reduce(
+                (acc, item) =>
+                    acc + item.unitPriceSnapshot * item.qty,
+                0
+            ),
+        [cartItems]
+    );
+
+    const tax = subtotal * 0.1;
+    const total = subtotal + tax;
+
+
+
+
 
     return (
         <div
@@ -38,7 +53,7 @@ export const CheckoutPanel = ({ cartItems, addItem, removeItem, subtotal, tax, t
                     <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
                         Current Order
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 text-xs text-primary">
-                            {cart.length}
+                            {cartItems.length}
                         </span>
                     </h2>
                     <p className="text-sm text-muted-foreground mt-1">
@@ -46,13 +61,13 @@ export const CheckoutPanel = ({ cartItems, addItem, removeItem, subtotal, tax, t
                     </p>
                 </div>
 
-                {cart.length === 0 ? (
+                {cartItems.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-4 opacity-50">
                         <ShoppingBag className="w-16 h-16 stroke-1" />
                         <p>No items added yet</p>
                     </div>
                 ) : (
-                    cart.map((item) => (
+                    cartItems.map((item) => (
                         <div
                             key={item.menuItem.id}
                             className="group flex items-center gap-4 p-3 rounded-xl bg-muted/20 border border-transparent hover:border-primary/20 hover:bg-muted/40 transition-all backdrop-blur-md"

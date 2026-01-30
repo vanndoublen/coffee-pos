@@ -1,18 +1,23 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MenuItemResponse } from "../menu-item.types";
+import { useCartStore } from "../stores/cartStore";
 
 interface Props {
+  isOrderView: boolean;
   menuItem: MenuItemResponse;
-  addItem: (item: MenuItemResponse) => void;
-  removeItem: (item: MenuItemResponse) => void;
 }
 
-export const MenuItemCard = ({ menuItem, addItem, removeItem }: Props) => {
+export const MenuItemCard = ({ isOrderView, menuItem }: Props) => {
   const disabled = !menuItem.active
+
+  const addItem = useCartStore(s => s.addItem);
+  const removeItem = useCartStore(s => s.removeItem);
 
   return (
     <Card
@@ -50,7 +55,7 @@ export const MenuItemCard = ({ menuItem, addItem, removeItem }: Props) => {
         </Badge>
       </div>
 
-     
+
       <div className="absolute bottom-0 left-0 right-0 z-20">
         <div className={cn(
           "flex flex-col gap-4 p-5",
@@ -73,31 +78,34 @@ export const MenuItemCard = ({ menuItem, addItem, removeItem }: Props) => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center bg-muted/50 border border-border/50 rounded-full shadow-sm">
-              <Button
-                variant="ghost"
-                size="icon"
-                disabled={disabled}
-                className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
-                onClick={() => removeItem(menuItem)}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
+          {isOrderView && (
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center bg-muted/50 border border-border/50 rounded-full shadow-sm">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  disabled={disabled}
+                  className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                  onClick={() => removeItem(menuItem)}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
 
-              <span className="w-px h-3 bg-border" />
+                <span className="w-px h-3 bg-border" />
 
-              <Button
-                variant="ghost"
-                size="icon"
-                disabled={disabled}
-                className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
-                onClick={() => addItem(menuItem)}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  disabled={disabled}
+                  className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
+                  onClick={() => addItem(menuItem)}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
+
         </div>
       </div>
     </Card>
