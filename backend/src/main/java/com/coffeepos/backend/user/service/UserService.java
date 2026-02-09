@@ -1,12 +1,11 @@
 package com.coffeepos.backend.user.service;
 
-import java.util.Optional;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.coffeepos.backend.auth.repository.RoleRepository;
+import com.coffeepos.backend.common.exception.NotFoundException;
+import com.coffeepos.backend.user.dto.UserResponse;
 import com.coffeepos.backend.user.entity.User;
+import com.coffeepos.backend.user.mapper.UserMapper;
 import com.coffeepos.backend.user.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -15,21 +14,25 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
-    public Optional<User> getByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public UserResponse getByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User", username));
+
+        return userMapper.toResponse(user);
     }
 
-    public Optional<User> getById(Long id) {
-        return userRepository.findById(id);
+    public UserResponse getById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User", id));
+
+        return userMapper.toResponse(user);
     }
 
     public Boolean isUsernameExisted(String username) {
@@ -37,3 +40,5 @@ public class UserService {
     }
 
 }
+
+// forever is a long time to go with the flow 

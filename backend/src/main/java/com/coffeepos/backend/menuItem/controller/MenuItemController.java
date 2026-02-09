@@ -31,7 +31,7 @@ public class MenuItemController {
 
     @GetMapping
     public ResponseEntity<List<MenuItemResponse>> findAll() {
-        List<MenuItemResponse> menuItems = menuItemService.findAll();
+        List<MenuItemResponse> menuItems = menuItemService.getAll();
 
         return ResponseEntity.ok()
                 .body(menuItems);
@@ -39,7 +39,7 @@ public class MenuItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuItemResponse> findOne(@PathVariable Long id) {
-        MenuItemResponse p = menuItemService.findOne(id);
+        MenuItemResponse p = menuItemService.getOne(id);
         return ResponseEntity.ok().body(p);
     }
 

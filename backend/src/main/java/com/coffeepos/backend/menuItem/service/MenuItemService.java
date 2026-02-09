@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.coffeepos.backend.common.exception.NotFoundException;
-import com.coffeepos.backend.menuItem.Repository.MenuItemRepository;
 import com.coffeepos.backend.menuItem.dto.CreateMenuItemRequest;
 import com.coffeepos.backend.menuItem.dto.MenuItemResponse;
 import com.coffeepos.backend.menuItem.dto.UpdateMenuItemRequest;
 import com.coffeepos.backend.menuItem.entity.MenuItem;
 import com.coffeepos.backend.menuItem.mapper.MenuItemMapper;
+import com.coffeepos.backend.menuItem.repository.MenuItemRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -26,12 +26,12 @@ public class MenuItemService {
         this.menuItemMapper = menuItemMapper;
     }
 
-    public List<MenuItemResponse> findAll() {
+    public List<MenuItemResponse> getAll() {
         List<MenuItem> menuItems = menuItemRepository.findAllByActiveTrue();
         return menuItems.stream().map(p -> menuItemMapper.toResponse(p)).toList();
     }
 
-    public MenuItemResponse findOne(Long id) {
+    public MenuItemResponse getOne(Long id) {
         MenuItem p = menuItemRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("MenuItem", id));
 

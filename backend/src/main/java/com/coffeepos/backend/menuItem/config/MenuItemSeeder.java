@@ -7,8 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.coffeepos.backend.menuItem.Repository.MenuItemRepository;
 import com.coffeepos.backend.menuItem.entity.MenuItem;
+import com.coffeepos.backend.menuItem.repository.MenuItemRepository;
 
 @Component
 public class MenuItemSeeder implements CommandLineRunner {

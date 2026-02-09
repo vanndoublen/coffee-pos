@@ -17,7 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,19 +27,18 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sale_id", nullable = false, unique = true)
-    private Sale sale;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentMethod method;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal paidAmount;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sale_id", nullable = false)
+    private Sale sale;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal changeAmount = BigDecimal.ZERO;
+    // TODO: Reference 
 
     @CreationTimestamp
     private Instant paidAt;
@@ -59,12 +58,8 @@ public class Payment {
         return method;
     }
 
-    public BigDecimal getPaidAmount() {
-        return paidAmount;
-    }
-
-    public BigDecimal getChangeAmount() {
-        return changeAmount;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     public Instant getPaidAt() {
@@ -73,18 +68,18 @@ public class Payment {
 
     public void setSale(Sale sale) {
         this.sale = sale;
+
+        if (sale != null && !sale.getPayments().contains(this)) {
+            sale.addPayment(this);
+        }
     }
 
     public void setMethod(PaymentMethod method) {
         this.method = method;
     }
 
-    public void setPaidAmount(BigDecimal paidAmount) {
-        this.paidAmount = paidAmount;
-    }
-
-    public void setChangeAmount(BigDecimal changeAmount) {
-        this.changeAmount = changeAmount;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
 }

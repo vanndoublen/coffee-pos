@@ -1,4 +1,4 @@
-package com.coffeepos.backend.menuItem.Repository;
+package com.coffeepos.backend.menuItem.repository;
 
 import java.util.List;
 

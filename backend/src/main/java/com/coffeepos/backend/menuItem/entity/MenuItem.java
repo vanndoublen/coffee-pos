@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
-@Table(name = "menuItems")
+@Table(name = "menu_items")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class MenuItem {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
 
     @CreationTimestamp
     private Instant createdAt;
@@ -59,7 +59,7 @@ public class MenuItem {
         return price;
     }
 
-    public Boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -79,7 +79,7 @@ public class MenuItem {
         this.price = price;
     }
 
-    public void setIsActive(Boolean active) {
+    public void setIsActive(boolean active) {
         this.active = active;
     }
 }

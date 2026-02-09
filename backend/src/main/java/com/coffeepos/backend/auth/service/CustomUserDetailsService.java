@@ -9,21 +9,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.coffeepos.backend.auth.security.CustomUserDetails;
+import com.coffeepos.backend.common.exception.NotFoundException;
 import com.coffeepos.backend.user.entity.User;
-import com.coffeepos.backend.user.service.UserService;
+import com.coffeepos.backend.user.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserService userService;
+        private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository; 
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found")); // this is our user entity
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User", username)); // this is our user entity
 
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
                 .map((role) -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
@@ -36,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserById(Long id) {
-        User user = userService.getById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()

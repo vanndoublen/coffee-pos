@@ -23,7 +23,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,30 +35,30 @@ public class Sale {
     @Column(unique = true)
     private String receiptNo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private SaleStatus status = SaleStatus.DRAFT;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cashier_id", nullable = false)
-    private User cashier;
-
-    @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Payment payment;
-
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal subtotal = BigDecimal.ZERO;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal grandTotal = BigDecimal.ZERO;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SaleStatus status = SaleStatus.DRAFT;
+
     @CreationTimestamp
     private Instant createdAt;
 
     private Instant completedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cashier_id", nullable = false)
+    private User cashier;
+
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaleItem> saleItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payments = new ArrayList<>();
 
     public Sale() {
     }
@@ -90,8 +89,8 @@ public class Sale {
         return cashier;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public List<Payment> getPayments() {
+        return payments;
     }
 
     public BigDecimal getSubtotal() {
@@ -126,8 +125,8 @@ public class Sale {
         this.cashier = cashier;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void addPayment(Payment payment) {
+        getPayments().add(payment);
         if (payment != null && payment.getSale() != this) {
             payment.setSale(this);
         }
@@ -142,6 +141,10 @@ public class Sale {
     }
 
     public void complete() {
+        if (this.status == SaleStatus.COMPLETED) {
+            return;
+        }
+
         this.completedAt = Instant.now();
         this.status = SaleStatus.COMPLETED;
     }
