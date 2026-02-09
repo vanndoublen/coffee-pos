@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.coffeepos.backend.payment.entity.Payment;
 import com.coffeepos.backend.payment.service.PaymentService;
 import com.coffeepos.backend.sale.dto.SaleRequest;
+import com.coffeepos.backend.sale.dto.SaleResponse;
 import com.coffeepos.backend.sale.entity.Sale;
 import com.coffeepos.backend.sale.entity.SaleItem;
+import com.coffeepos.backend.sale.mapper.SaleMapper;
 import com.coffeepos.backend.sale.repository.SaleRepository;
 import com.coffeepos.backend.user.entity.User;
 
@@ -25,22 +27,24 @@ public class SaleService {
     private final EntityManager entityManager;
     private final SaleItemService saleItemService;
     private final PaymentService paymentService; 
+    private final SaleMapper saleMapper; 
 
     public SaleService(
             SaleRepository saleRepository,
             EntityManager entityManager,
             SaleItemService saleItemService, 
-            PaymentService paymentService
+            PaymentService paymentService,
+            SaleMapper saleMapper
 
         ) {
         this.saleRepository = saleRepository;
         this.entityManager = entityManager;
         this.saleItemService = saleItemService;
         this.paymentService = paymentService; 
+        this.saleMapper = saleMapper; 
     }
 
-    public void checkout(SaleRequest saleRequest) {
-
+    public SaleResponse checkout(SaleRequest saleRequest) {
         Sale sale = buildSale(saleRequest); 
         
         paymentService.validateTotalPayment(sale);
@@ -49,6 +53,7 @@ public class SaleService {
 
         saleRepository.save(sale);
 
+        return saleMapper.toResponse(sale);
     }
 
     private Sale buildSale(SaleRequest saleRequest) {
