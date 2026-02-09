@@ -1,6 +1,5 @@
 package com.coffeepos.backend.sale.service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -44,11 +43,7 @@ public class SaleService {
 
         Sale sale = buildSale(saleRequest); 
         
-        BigDecimal paidTotal = sale.getPayments().stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        if (paidTotal.compareTo(sale.getGrandTotal()) < 0) {
-            throw new IllegalStateException("Insufficient payment");
-        }
+        paymentService.validateTotalPayment(sale);
 
         sale.complete();
 
