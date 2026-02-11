@@ -13,10 +13,11 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "../stores/cartStore";
 
+interface Props {
+    setOpenDialog: (open: boolean) => void;
+}
 
-export const CheckoutPanel = () => {
-    const [paymentMethod, setPaymentMethod] = useState<"cash" | "card">("card");
-
+export const CheckoutPanel = ({ setOpenDialog }: Props) => {
     const items = useCartStore((s) => s.items);
     const addItem = useCartStore((s) => s.addItem);
     const removeItem = useCartStore((s) => s.removeItem);
@@ -41,11 +42,11 @@ export const CheckoutPanel = () => {
 
     return (
         <div
-            className="h-full flex flex-col bg-secondary/90 border-t shadow-md border-white/5 relative rounded-xl p-2"
+            className="h-full flex flex-col bg-secondary border-t shadow-md border-white/5 relative rounded-xl p-2"
         >
 
             <div className="flex-1 overflow-y-auto space-y-3 px-4">
-                <div className="sticky top-0 z-10 p-6 pb-4 border-b bg-secondary/90 ">
+                <div className="sticky top-0 z-10 p-6 pb-4 border-b bg-secondary ">
                     <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
                         Current Order
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 text-xs text-primary">
@@ -115,55 +116,6 @@ export const CheckoutPanel = () => {
             </div>
 
             <div className="p-6 bg-secondary backdrop-blur-md border-t space-y-6 rounded-b-xl">
-
-                <div className="grid grid-cols-2 gap-3 shadow-2xl rounded-xl bg-muted/45 p-1">
-                    <Button
-                        variant="secondary"
-                        onClick={() => setPaymentMethod("cash")}
-                        className={cn(
-                            "flex bg-transparent! items-center justify-ceniter gap-2 p-3 rounded-xl border-0 transition-all duration-200",
-                            paymentMethod === "cash"
-                                ? "text-primary bg-accent/30! shadow-2xl"
-                                : "bg-transparent border-border hover:bg-muted/10 text-muted-foreground/50"
-                        )}
-                    >
-                        <Banknote className="w-6 h-6" />
-                        <span className="text-xs font-semibold uppercase">Cash</span>
-                    </Button>
-
-                    <Button
-                        variant="secondary"
-
-                        onClick={() => setPaymentMethod("card")}
-                        className={cn(
-                            "flex bg-transparent! items-center justify-ceniter gap-2 p-3 rounded-xl border-0 transition-all duration-200",
-                            paymentMethod === "card"
-                                ? "text-primary bg-accent/30! shadow-2xl"
-                                : "bg-transparent border-border hover:bg-muted/10 text-muted-foreground/50"
-                        )}
-                    >
-                        <CreditCard className="w-6 h-6" />
-                        <span className="text-xs font-semibold uppercase">Card</span>
-                    </Button>
-
-                    {/* 
-                    <Button
-                    variant="ghost"
-
-                        onClick={() => setPaymentMethod("card")}
-                        className={cn(
-                            "flex items-center justify-center gap-2 p-3 rounded-xl border transition-all duration-200",
-                            paymentMethod === "card"
-                                ? "bg-primary/10 border-primary text-primary shadow-[0_0_20px_-5px_rgba(0,0,0,0.3)] shadow-primary/20"
-                                : "bg-muted/10 border-border hover:bg-muted/20 text-muted-foreground"
-                        )}
-                    >
-                        <CreditCard className="w-6 h-6" />
-                        <span className="text-xs font-semibold uppercase">Card</span>
-                    </Button>
-                    */}
-                </div>
-
                 {/* Totals Breakdown */}
                 <div className="space-y-4 text-sm shadow-2xl p-6 rounded-xl bg-muted/45">
                     <div className="flex justify-between text-muted-foreground">
@@ -181,13 +133,13 @@ export const CheckoutPanel = () => {
                             ${total.toFixed(2)}
                         </span>
                     </div>
-
-
                 </div>
+                
                 <Button
                     size="lg"
                     variant="outline"
-                    className="w-full text-lg font-bold h-14 shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]"
+                    className="w-full text-lg font-bold h-14 transition-all active:scale-[0.98]"
+                    onClick={() => setOpenDialog(true)}
                 >
                     <span>Charge ${total.toFixed(2)}</span>
                     <ArrowRight className="ml-2 h-5 w-5" />

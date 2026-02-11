@@ -14,7 +14,7 @@ export const MenuItemList = ({ isOrderView }: ManuItemListProps) => {
     const { data: menuItems } = useMenuItems();
 
     return (
-        <div className="grid p-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid p-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {menuItems?.map((menuItem) => (
                 <MenuItemCard
                     key={menuItem.id}

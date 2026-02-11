@@ -22,7 +22,7 @@ export const MenuItemCard = ({ isOrderView, menuItem }: Props) => {
   return (
     <Card
       className={cn(
-        "group relative w-full h-80 overflow-hidden border-0 bg-transparent backdrop-blur-md", // Transparent base
+        "group relative w-full h-60 overflow-hidden border-0 bg-transparent backdrop-blur-md", // Transparent base
         disabled && "grayscale-[0.8] opacity-70 pointer-events-none"
       )}
     >
