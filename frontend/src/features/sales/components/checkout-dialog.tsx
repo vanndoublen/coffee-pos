@@ -102,7 +102,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
 
-            <DialogContent className="sm:max-w-sm md:max-w-xl">
+            <DialogContent className="sm:max-w-sm md:max-w-xl bg-muted">
                 <DialogHeader>
                     <div className="flex items-center justify-between">
                         <div>
@@ -121,7 +121,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                 {isMultiplePayments ? (
                     <div className="flex flex-col items-center gap-y-4">
                         <div className="w-full grid grid-cols-2 gap-x-4">
-                            <div className="col-span-1 flex flex-col gap-y-4 bg-muted/45 p-4 rounded-2xl border-t shadow-2xl">
+                            <div className="col-span-1 flex flex-col gap-y-4 bg-accent p-4 rounded-2xl border-t shadow-2xl">
                                 <div className="flex items-center justify-between">
                                     <span className={cn("text-sm", !enableCashPayment && "text-muted-foreground")}>Cash</span>
                                     <Switch checked={enableCashPayment} onCheckedChange={setEnableCashPayment} />
@@ -147,7 +147,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                                 />
                             </div>
 
-                            <div className="col-span-1 flex flex-col gap-y-4 bg-muted/45 p-4 rounded-2xl border-t shadow-2xl">
+                            <div className="col-span-1 flex flex-col gap-y-4 bg-accent p-4 rounded-2xl border-t shadow-2xl">
                                 <div className="flex items-center justify-between">
                                     <span className={cn("text-sm", !enableCardPayment && "text-muted-foreground")}>Card</span>
                                     <Switch checked={enableCardPayment} onCheckedChange={setEnableCardPayment} />
@@ -174,7 +174,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                             </div>
                         </div>
 
-                        <div className="w-full rounded-2xl px-6 py-2 bg-muted/45 border-t shadow-2xl text-sm flex justify-between ">
+                        <div className="w-full rounded-2xl px-6 py-2 bg-accent border-t shadow-2xl text-sm flex justify-between ">
                             <span>Total paid: ${(paidCents / 100).toFixed(2)}</span>
                             <span>Remaining: ${Math.max(0, (remainingCents / 100)).toFixed(2)}</span>
                             <span>Change: ${Math.max(0, (changeCents / 100)).toFixed(2)}</span>
@@ -185,7 +185,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                         <Button
                             variant="secondary"
                             className={cn(
-                                "bg-muted/90!",
+                                "bg-accent!",
                                 method === "CASH" ?
                                     "border-t shadow-sm" :
                                     "bg-transparent! text-muted-foreground"
@@ -199,7 +199,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                         <Button
                             variant="secondary"
                             className={cn(
-                                "bg-muted/90!",
+                                "bg-accent!",
                                 method === "CARD" ?
                                     "border-t shadow-sm" :
                                     "bg-transparent! text-muted-foreground"
@@ -212,7 +212,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                     </div>
                 )}
 
-                <div className="space-y-4 text-sm p-6 rounded-2xl bg-muted/45 border border-dashed border-t shadow-2xl">
+                <div className="space-y-4 text-sm p-6 rounded-2xl bg-accent border border-dashed border-t shadow-2xl">
                     <div className="flex justify-between text-muted-foreground">
                         <span>Subtotal</span>
                         <span>${subtotal.toFixed(2)}</span>
@@ -233,8 +233,8 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                 <DialogFooter>
                     <Button
                         variant="outline"
-                        className="shadow-sm! transition-all active:scale-[0.98]"
-                        disabled={isMultiplePayments && paidCents < totalCents && items.size === 0}
+                        className="bg-accent! shadow-sm! transition-all active:scale-[0.98]"
+                        disabled={(isMultiplePayments && paidCents < totalCents) || items.size === 0}
                         onClick={onSubmit}
                     >
                         {checkoutMutation.isPending ? (

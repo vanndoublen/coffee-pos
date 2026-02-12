@@ -69,22 +69,22 @@ export const CreateMenuItemForm = () => {
 
     return (
         <div
-            className="h-full flex flex-col bg-secondary/90 border-t shadow-md border-white/5 relative rounded-xl p-2 gap-2"
+            className="h-full flex flex-col bg-muted border-t shadow-md border-white/5 relative rounded-xl p-2 gap-2"
         >
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex flex-col h-full gap-2"
                 >
-                    <div className="bg-muted/40 text-center rounded-xl border-t shadow-2xl p-4">
-                        <h1>Create your menu item</h1>
-                        <span className="text-muted-foreground text-sm">
-                            fill in the form below to create a new menu item
-                        </span>
-                    </div>
+                    <div className="flex-1 flex flex-col text-center p-4 gap-8">
+                        <div>
+                            <h1>Create your menu item</h1>
+                            <span className="text-muted-foreground text-sm">
+                                fill in the form below to create a new menu item
+                            </span>
+                        </div>
 
-                    <div className="flex-1 justify-between overflow-y-auto space-y-3 bg-muted/40 rounded-xl border-t shadow-2xl p-8">
-                        <div className="grid gap-8">
+                        <div className="grid gap-8 border-t shadow-2xl p-8 rounded-xl bg-accent">
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -140,18 +140,14 @@ export const CreateMenuItemForm = () => {
                                     </FormItem>
                                 )}
                             />
-
-
-
-
                         </div>
                     </div>
 
-                    <div className="p-6 bg-secondary backdrop-blur-md border-t rounded-b-xl">
+                    <div className="p-6 bg-muted backdrop-blur-md border-t rounded-b-xl">
                         <Button
                             size="lg"
                             variant="outline"
-                            className="w-full text-lg font-bold h-14 shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]"
+                            className="bg-accent! w-full text-lg font-bold h-14 shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]"
                             type="submit"
                             disabled={createMenuItemMutation.isPending}
                         >

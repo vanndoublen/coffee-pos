@@ -42,11 +42,11 @@ export const CheckoutPanel = ({ setOpenDialog }: Props) => {
 
     return (
         <div
-            className="h-full flex flex-col bg-secondary border-t shadow-md border-white/5 relative rounded-xl p-2"
+            className="h-full flex flex-col bg-muted border-t shadow-md border-white/5 relative rounded-xl p-2"
         >
 
-            <div className="flex-1 overflow-y-auto space-y-3 px-4">
-                <div className="sticky top-0 z-10 p-6 pb-4 border-b bg-secondary ">
+            <div className="flex-1 overflow-y-auto space-y-3 px-4 pb-4">
+                <div className="sticky top-0 z-10 p-8 pb-4 border-b bg-muted/90 ">
                     <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
                         Current Order
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 text-xs text-primary">
@@ -67,7 +67,7 @@ export const CheckoutPanel = ({ setOpenDialog }: Props) => {
                     cartItems.map((item) => (
                         <div
                             key={item.menuItem.id}
-                            className="group flex items-center gap-4 p-3 rounded-xl bg-muted/20 border border-transparent hover:border-primary/20 hover:bg-muted/40 transition-all backdrop-blur-md"
+                            className="group flex items-center gap-4 p-3 rounded-xl hover:bg-secondary transition-all backdrop-blur-md"
                         >
                             <div className="h-12 w-12 rounded-lg bg-black/20 p-1 shrink-0">
                                 <img src="/logo.svg" alt={item.menuItemNameSnapshot} className="h-full w-full object-contain" />
@@ -115,9 +115,9 @@ export const CheckoutPanel = ({ setOpenDialog }: Props) => {
                 )}
             </div>
 
-            <div className="p-6 bg-secondary backdrop-blur-md border-t space-y-6 rounded-b-xl">
+            <div className="p-6 bg-muted space-y-6 rounded-2xl border-t">
                 {/* Totals Breakdown */}
-                <div className="space-y-4 text-sm shadow-2xl p-6 rounded-xl bg-muted/45">
+                <div className="space-y-4 text-sm border-t shadow-2xl p-6 rounded-xl bg-accent">
                     <div className="flex justify-between text-muted-foreground">
                         <span>Subtotal</span>
                         <span>${subtotal.toFixed(2)}</span>
@@ -138,7 +138,7 @@ export const CheckoutPanel = ({ setOpenDialog }: Props) => {
                 <Button
                     size="lg"
                     variant="outline"
-                    className="w-full text-lg font-bold h-14 transition-all active:scale-[0.98]"
+                    className="bg-accent! shadow-2xl border-0! border-t! w-full text-lg font-bold h-14 transition-all active:scale-[0.98]"
                     disabled={items.size === 0}
                     onClick={() => setOpenDialog(true)}
                 >
