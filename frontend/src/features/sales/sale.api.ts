@@ -8,4 +8,10 @@ export const saleApi = {
       body: saleRequest,
     });
   },
+
+  async getAll() {
+    return apiFetch<SaleResponse[]>("/api/sales", {
+      method: "GET",
+    });
+  },
 };

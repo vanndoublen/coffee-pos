@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.coffeepos.backend.common.utils.MoneyUtils;
 import com.coffeepos.backend.payment.enums.PaymentMethod;
 import com.coffeepos.backend.sale.entity.Sale;
 
@@ -79,7 +80,7 @@ public class Payment {
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = MoneyUtils.money(amount);
     }
 
 }

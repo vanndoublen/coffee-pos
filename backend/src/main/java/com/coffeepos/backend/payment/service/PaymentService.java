@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
 
+import com.coffeepos.backend.common.utils.MoneyUtils;
 import com.coffeepos.backend.payment.dto.PaymentRequest;
 import com.coffeepos.backend.payment.entity.Payment;
 import com.coffeepos.backend.sale.entity.Sale;
@@ -24,7 +25,7 @@ public class PaymentService {
     }
 
     public void validateTotalPayment(Sale sale) {
-        BigDecimal paidTotal = sale.getPayments().stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal paidTotal = MoneyUtils.money(sale.getPayments().stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
 
         if (paidTotal.compareTo(sale.getGrandTotal()) < 0) {
             throw new IllegalStateException("Insufficient payment");

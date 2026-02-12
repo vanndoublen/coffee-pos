@@ -8,8 +8,15 @@ import { useCartStore } from "@/features/menu-item/stores/cartStore";
 import { PaymentMethod } from "@/features/payments/payment.types";
 import { cn } from "@/lib/utils";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { BanknoteIcon, CreditCardIcon } from "lucide-react";
+import { BanknoteIcon, CreditCardIcon, Loader2Icon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useCheckout } from "../sale.hook";
+import { SaleRequest } from "../sale.types";
+import { generateReceiptNo, getPayments, getSaleItems } from "../lib/utils";
+import { useMe } from "@/features/auth/auth.hooks";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Props {
     open: boolean;
@@ -24,11 +31,8 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
     const [cashInput, setCashInput] = useState("");
     const [cardInput, setCardInput] = useState("");
 
-    const onSubmit = () => {
-
-    };
-
     const items = useCartStore((s) => s.items);
+    const clearCart = useCartStore((s) => s.clearCart);
     const cartItems = useMemo(
         () => Array.from(items.values()),
         [items]
@@ -55,7 +59,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
         ? Math.round(Number(cardInput || 0) * 100)
         : 0;
     const totalCents = Math.round(total * 100);
-    const paidCents = cashCents + cardCents; 
+    const paidCents = cashCents + cardCents;
     const remainingCents = Math.max(0, totalCents - paidCents);
     const changeCents = Math.max(0, paidCents - totalCents);
 
@@ -69,7 +73,31 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
         if (!enableCardPayment) {
             setCardInput("");
         }
-    }, [enableCardPayment])
+    }, [enableCardPayment]);
+
+    const queryClient = useQueryClient();
+    const checkoutMutation = useCheckout();
+
+    const { data: user } = useMe();
+    if (!user) return;
+
+    const onSubmit = () => {
+        const data: SaleRequest = {
+            receiptNo: generateReceiptNo(),
+            cashierId: user.id,
+            saleItems: getSaleItems(cartItems),
+            payments: getPayments(isMultiplePayments, enableCashPayment, enableCardPayment, cashCents, cardCents, totalCents, method),
+        }
+
+        checkoutMutation.mutate(data, {
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ["sales"] });
+                onOpenChange(false);
+                clearCart();
+                toast.success("Checkout completed");
+            }
+        })
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -206,9 +234,14 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                     <Button
                         variant="outline"
                         className="shadow-sm! transition-all active:scale-[0.98]"
-                        disabled={isMultiplePayments && paidCents < totalCents}
+                        disabled={isMultiplePayments && paidCents < totalCents && items.size === 0}
+                        onClick={onSubmit}
                     >
-                        <span className="text-sm font-semibold">Complete Sale</span>
+                        {checkoutMutation.isPending ? (
+                            <Loader2Icon className="animate-spin"/>
+                        ) : (
+                            <span className="text-sm font-semibold">Complete Sale</span>
+                        )}
                     </Button>
                 </DialogFooter>
             </DialogContent>

@@ -1,5 +1,6 @@
 import { UserResponse } from "../auth/auth.types";
 import { MenuItemResponse } from "../menu-item/menu-item.types";
+import { PaymentRequest } from "../payments/payment.types";
 
 export type SaleStatus =
   | "DRAFT"
@@ -10,10 +11,7 @@ export type SaleStatus =
 
 export interface SaleRequest {
   receiptNo: string;
-  saleStatus: SaleStatus;
   cashierId: number;
-  subtotal: number;
-  grandTotal: number;
   saleItems: SaleItemRequest[];
   payments: PaymentRequest[];
 }

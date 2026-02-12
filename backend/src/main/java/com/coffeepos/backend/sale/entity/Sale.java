@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.coffeepos.backend.common.utils.MoneyUtils;
 import com.coffeepos.backend.payment.entity.Payment;
 import com.coffeepos.backend.sale.enums.SaleStatus;
 import com.coffeepos.backend.user.entity.User;
@@ -61,16 +62,6 @@ public class Sale {
     private List<Payment> payments = new ArrayList<>();
 
     public Sale() {
-    }
-
-    public Sale(String receiptNo, SaleStatus status, User cashier, BigDecimal subtotal, BigDecimal grandTotal,
-            Instant completedAt) {
-        this.receiptNo = receiptNo;
-        this.status = status;
-        this.cashier = cashier;
-        this.subtotal = subtotal;
-        this.grandTotal = grandTotal;
-        this.completedAt = completedAt;
     }
 
     public Long getId() {
@@ -133,11 +124,11 @@ public class Sale {
     }
 
     public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
+        this.subtotal = MoneyUtils.money(subtotal);
     }
 
     public void setGrandTotal(BigDecimal grandTotal) {
-        this.grandTotal = grandTotal;
+        this.grandTotal = MoneyUtils.money(grandTotal);
     }
 
     public void complete() {

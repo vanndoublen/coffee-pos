@@ -2,6 +2,7 @@ package com.coffeepos.backend.sale.entity;
 
 import java.math.BigDecimal;
 
+import com.coffeepos.backend.common.utils.MoneyUtils;
 import com.coffeepos.backend.menuItem.entity.MenuItem;
 
 import jakarta.persistence.Column;
@@ -13,7 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "sale_items")
@@ -33,9 +36,12 @@ public class SaleItem {
     @Column(nullable = false)
     private String menuItemNameSnapshot;
 
+    @NotNull
+    @PositiveOrZero
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal unitPriceSnapshot;
 
+    @NotNull
     @Positive
     @Column(nullable = false)
     private Integer qty;
@@ -44,17 +50,6 @@ public class SaleItem {
     private BigDecimal lineTotal;
 
     public SaleItem() {
-    }
-
-    public SaleItem(Sale sale, MenuItem menuItem, String menuItemNameSnapshot, BigDecimal unitPriceSnapshot,
-            Integer qty,
-            BigDecimal lineTotal) {
-        this.sale = sale;
-        this.menuItem = menuItem;
-        this.menuItemNameSnapshot = menuItemNameSnapshot;
-        this.unitPriceSnapshot = unitPriceSnapshot;
-        this.qty = qty;
-        this.lineTotal = lineTotal;
     }
 
     public Long getId() {
@@ -98,12 +93,13 @@ public class SaleItem {
     }
 
     public void setUnitPriceSnapshot(BigDecimal unitPriceSnapshot) {
-        this.unitPriceSnapshot = unitPriceSnapshot;
+        this.unitPriceSnapshot = MoneyUtils.money(unitPriceSnapshot);
     }
 
     public void updateQty(int qty) {
         this.qty = qty;
-        this.lineTotal = unitPriceSnapshot.multiply(BigDecimal.valueOf(qty));
+        this.lineTotal = MoneyUtils.money(
+                unitPriceSnapshot.multiply(BigDecimal.valueOf(qty)));
     }
 
 }

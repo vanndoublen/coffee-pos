@@ -139,6 +139,7 @@ export const CheckoutPanel = ({ setOpenDialog }: Props) => {
                     size="lg"
                     variant="outline"
                     className="w-full text-lg font-bold h-14 transition-all active:scale-[0.98]"
+                    disabled={items.size === 0}
                     onClick={() => setOpenDialog(true)}
                 >
                     <span>Charge ${total.toFixed(2)}</span>

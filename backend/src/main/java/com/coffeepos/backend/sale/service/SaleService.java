@@ -1,12 +1,12 @@
 package com.coffeepos.backend.sale.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.coffeepos.backend.common.utils.MoneyUtils;
 import com.coffeepos.backend.payment.entity.Payment;
 import com.coffeepos.backend.payment.service.PaymentService;
 import com.coffeepos.backend.sale.dto.SaleRequest;
@@ -28,6 +28,8 @@ public class SaleService {
     private final SaleItemService saleItemService;
     private final PaymentService paymentService; 
     private final SaleMapper saleMapper; 
+
+    private final BigDecimal TAX = new BigDecimal("0.10");
 
     public SaleService(
             SaleRepository saleRepository,
@@ -56,16 +58,15 @@ public class SaleService {
         return saleMapper.toResponse(sale);
     }
 
+    public List<SaleResponse> getAll() {
+        List<Sale> sales = saleRepository.findAll(); 
+        return sales.stream().map(s -> saleMapper.toResponse(s)).toList(); 
+    }
+
     private Sale buildSale(SaleRequest saleRequest) {
         Sale sale = new Sale();
 
-        // use date for receiptNo (TODO: find a nicer solution)
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
-        sale.setReceiptNo(now.format(formatter));
-
-        sale.setSubtotal(saleRequest.subTotal());
-        sale.setGrandTotal(saleRequest.grandTotal());
+        sale.setReceiptNo(saleRequest.receiptNo());
 
         User user = entityManager.getReference(User.class, saleRequest.cashierId());
         sale.setCashier(user);
@@ -75,6 +76,12 @@ public class SaleService {
             saleItems.add(saleItemService.createEntity(saleItem));
         }
         saleItems.forEach(sale::addItem);
+
+
+        BigDecimal subtotal = MoneyUtils.money(saleItems.stream().map(SaleItem::getLineTotal).reduce(BigDecimal.ZERO, BigDecimal::add)); 
+        BigDecimal grandTotal = MoneyUtils.money(subtotal.multiply(TAX).add(subtotal));
+        sale.setSubtotal(subtotal);
+        sale.setGrandTotal(grandTotal);
 
         List<Payment> payments = new ArrayList<>();
         for (var paymentRequest : saleRequest.payments()) {
