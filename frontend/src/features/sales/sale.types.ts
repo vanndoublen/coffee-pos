@@ -45,3 +45,26 @@ export interface SaleItemResponse {
   qty: number;
   lineTotal: number;
 }
+
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+
+  size: number;
+  number: number;
+
+  first: boolean;
+  last: boolean;
+
+  numberOfElements: number;
+
+  empty: boolean;
+}
+
+export interface SaleQueryParams {
+  page?: number;
+  size?: number;
+  search?: string;
+  status?: SaleStatus | null;
+}

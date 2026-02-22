@@ -1,15 +1,33 @@
-"use client";
+import { SaleView } from "@/features/sales/components/sale-view";
+import { saleApi } from "@/features/sales/sale.api";
+import { salesParamsLoader } from "@/features/sales/sale.params";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { useSales } from "@/features/sales/sale.hook";
+interface Props {
+    searchParams: Promise<SearchParams>;
+}
 
-export const Page = () => {
-    const { data } = useSales(); 
+export const Page = async ({ searchParams }: Props) => {
+    const params = await salesParamsLoader(searchParams);
+
+    const queryClient = new QueryClient();
+
+    void queryClient.prefetchQuery({
+        queryKey: ["sales", params],
+        queryFn: () => saleApi.findAll(params)
+    })
+
     return (
-        <div className="h-full grid grid-cols-3 rounded-md overflow-hidden bg-background border  shadow-md">
-
-            {JSON.stringify(data, null, 2)}
-
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+            <ErrorBoundary fallback={<p>Error</p>}>
+                <Suspense fallback={<p>Loading</p>}>
+                    <SaleView />
+                </Suspense>
+            </ErrorBoundary>
+        </HydrationBoundary>
     );
 }
 

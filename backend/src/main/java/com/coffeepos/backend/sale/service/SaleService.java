@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.coffeepos.backend.common.utils.MoneyUtils;
@@ -13,6 +15,7 @@ import com.coffeepos.backend.sale.dto.SaleRequest;
 import com.coffeepos.backend.sale.dto.SaleResponse;
 import com.coffeepos.backend.sale.entity.Sale;
 import com.coffeepos.backend.sale.entity.SaleItem;
+import com.coffeepos.backend.sale.enums.SaleStatus;
 import com.coffeepos.backend.sale.mapper.SaleMapper;
 import com.coffeepos.backend.sale.repository.SaleRepository;
 import com.coffeepos.backend.user.entity.User;
@@ -56,6 +59,16 @@ public class SaleService {
         saleRepository.save(sale);
 
         return saleMapper.toResponse(sale);
+    }
+
+    public Page<SaleResponse> findAll(
+        String search, 
+        SaleStatus status, 
+        Pageable pageable
+    ) {
+        Page<Sale> sales = saleRepository.search(search, status, pageable); 
+
+        return sales.map(saleMapper::toResponse); 
     }
 
     public List<SaleResponse> getAll() {

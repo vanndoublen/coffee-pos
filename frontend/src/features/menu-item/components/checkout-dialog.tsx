@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { BanknoteIcon, CreditCardIcon, Loader2Icon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useCheckout } from "../sale.hook";
-import { SaleRequest } from "../sale.types";
-import { generateReceiptNo, getPayments, getSaleItems } from "../lib/utils";
+import { useCheckout } from "../../sales/sale.hook";
+import { SaleRequest } from "../../sales/sale.types";
+import { generateReceiptNo, getPayments, getSaleItems } from "../../sales/lib/utils";
 import { useMe } from "@/features/auth/auth.hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -238,7 +238,7 @@ export const CheckoutDialog = ({ open, onOpenChange }: Props) => {
                         onClick={onSubmit}
                     >
                         {checkoutMutation.isPending ? (
-                            <Loader2Icon className="animate-spin"/>
+                            <Loader2Icon className="animate-spin" />
                         ) : (
                             <span className="text-sm font-semibold">Complete Sale</span>
                         )}

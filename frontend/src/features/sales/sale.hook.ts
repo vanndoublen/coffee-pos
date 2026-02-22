@@ -1,6 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { saleApi } from "./sale.api";
-import { SaleRequest } from "./sale.types";
+import { SaleQueryParams, SaleRequest } from "./sale.types";
+import { useQueryStates } from "nuqs"; 
+import { saleParams } from "./sale.params";
 
 export const useCheckout = () => {
   return useMutation({
@@ -8,9 +10,13 @@ export const useCheckout = () => {
   });
 };
 
-export const useSales = () => {
+export const useSales = (params: SaleQueryParams) => {
   return useQuery({
-    queryKey: ["sales"],
-    queryFn: saleApi.getAll,
+    queryKey: ["sales", params],
+    queryFn: () => saleApi.findAll(params),
   });
 };
+
+export const useSalesParams = () => {
+  return useQueryStates(saleParams); 
+}
